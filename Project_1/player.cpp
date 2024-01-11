@@ -1,4 +1,6 @@
 #include "player.h"
+#include "city.h"
+#include "globals.h"
 #include <iostream>
 using namespace std;
 Player::Player(City* cp, int r, int c)

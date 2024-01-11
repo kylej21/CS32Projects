@@ -1,7 +1,7 @@
 #ifndef TOOTER_H
 #define TOOTER_H
 
-#include "city.h"
+class City;
 class Tooter
 {
   public:

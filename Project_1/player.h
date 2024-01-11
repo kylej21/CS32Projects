@@ -1,7 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#include "globals.h"
 
-#include "city.h"
+class City;
+
 class Player
 {
   public:
