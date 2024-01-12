@@ -1,9 +1,10 @@
 #include "city.h"
+#include "history.h"
 #include <iostream>
 using namespace std;
 
 City::City(int nRows, int nCols)
- : m_rows(nRows), m_cols(nCols), m_player(nullptr), m_nTooters(0)
+ : m_rows(nRows), m_cols(nCols), m_player(nullptr), m_nTooters(0), m_history(*new History(nRows,nCols))
 {
     if (nRows <= 0  ||  nCols <= 0  ||  nRows > MAXROWS  ||  nCols > MAXCOLS)
     {
@@ -11,6 +12,7 @@ City::City(int nRows, int nCols)
              << nCols << "!" << endl;
         exit(1);
     }
+
 }
 
 City::~City()
@@ -186,15 +188,23 @@ void City::preachToTootersAroundPlayer()
 
           // if orthogonally or diagonally adjacent and conversion succeeds
         if (rowdiff >= -1  &&  rowdiff <= 1  &&
-            coldiff >= -1  &&  coldiff <= 1  &&
-            randInt(1, 3) <= 2)  // 2/3 probability
+            coldiff >= -1  &&  coldiff <= 1 )
+              // 2/3 probability
         {
-            delete m_tooters[k];
-            m_tooters[k] = m_tooters[m_nTooters-1];
-            m_nTooters--;
+            if(randInt(1, 3) <= 2){
+                delete m_tooters[k];
+                m_tooters[k] = m_tooters[m_nTooters-1];
+                m_nTooters--;
+            }
+            else{
+                m_history.record(tp->row(),tp->col());
+                k++;
+            }
+            
         }
-        else
+        else{
             k++;
+        }
     }
 }
 
@@ -219,3 +229,6 @@ bool City::isInBounds(int r, int c) const
 {
     return (r >= 1  &&  r <= m_rows  &&  c >= 1  &&  c <= m_cols);
 }
+History& City::history(){
+    return m_history;
+} 

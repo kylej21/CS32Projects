@@ -1,4 +1,5 @@
 #include "game.h"
+#include "history.h"
 #include <iostream>
 using namespace std;
 Game::Game(int rows, int cols, int nTooters)
@@ -53,6 +54,7 @@ void Game::play()
 
     while ( ! p->isPassedOut()  &&  m_city->tooterCount() > 0)
     {
+        bool historied=false;
         cout << "Move (u/d/l/r//q): ";
         string action;
         getline(cin,action);
@@ -67,6 +69,12 @@ void Game::play()
                 continue;
               case 'q':
                 return;
+              case 'h':
+                historied=true;
+                m_city->history().display();
+                cout << "Press enter to continue"<<endl;
+                cin.ignore(10000,'\n');
+                break;
               case 'u':
               case 'd':
               case 'l':
@@ -75,8 +83,11 @@ void Game::play()
                 break;
             }
         }
-        m_city->moveTooters();
+        if(historied==false){
+            m_city->moveTooters();
+        }
         m_city->display();
+        
     }
     if (p->isPassedOut())
         cout << "You lose." << endl;
