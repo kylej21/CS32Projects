@@ -1,5 +1,7 @@
-#include "city.h"
-#include "history.h"
+#include "City.h"
+#include "History.h"
+#include "Player.h"
+#include "Tooter.h"
 #include <iostream>
 using namespace std;
 

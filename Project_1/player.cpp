@@ -1,5 +1,5 @@
-#include "player.h"
-#include "city.h"
+#include "Player.h"
+#include "City.h"
 #include "globals.h"
 #include <iostream>
 using namespace std;

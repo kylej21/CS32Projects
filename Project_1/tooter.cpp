@@ -1,6 +1,6 @@
-#include "tooter.h"
+#include "Tooter.h"
 #include "globals.h"
-#include "city.h"
+#include "City.h"
 #include <iostream>
 using namespace std;
 Tooter::Tooter(City* cp, int r, int c)

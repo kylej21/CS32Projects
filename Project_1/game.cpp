@@ -1,5 +1,7 @@
-#include "game.h"
-#include "history.h"
+#include "Game.h"
+#include "History.h"
+#include "City.h"
+#include "Player.h"
 #include <iostream>
 using namespace std;
 Game::Game(int rows, int cols, int nTooters)

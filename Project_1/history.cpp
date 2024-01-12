@@ -1,5 +1,5 @@
 #include <iostream>
-#include "history.h"
+#include "History.h"
 #include "globals.h"
 using namespace std;
 
@@ -36,4 +36,5 @@ void History::display() const{
         }
         cout << endl;
     }
+    cout <<endl;
 }

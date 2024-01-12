@@ -1,10 +1,11 @@
 #ifndef CITY_H
 #define CITY_H
 
-#include "player.h"
-#include "tooter.h"
+
 #include "globals.h"
-#include "history.h"
+#include "History.h"
+class Player;
+class Tooter;
 class City
 {
   public:
