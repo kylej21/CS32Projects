@@ -32,7 +32,14 @@ void History::display() const{
     clearScreen();
     for(int i=0; i<m_rows;i++){
         for(int j=0;j<m_cols;j++){
-            cout << landed[i][j];
+            char mappedVals[28] = ".ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            int numCurrent = landed[i][j];
+            if(numCurrent>=26){
+                cout << "Z";
+            }
+            else{
+                cout << mappedVals[numCurrent];
+            }
         }
         cout << endl;
     }
