@@ -74,7 +74,7 @@ void Game::play()
               case 'h':
                 historied=true;
                 m_city->history().display();
-                cout << "Press enter to continue"<<endl;
+                cout << "Press enter to continue."<<endl;
                 cin.ignore(10000,'\n');
                 break;
               case 'u':

@@ -30,9 +30,9 @@ bool History::record(int r, int c){
 }
 void History::display() const{
     clearScreen();
+    char mappedVals[28] = ".ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for(int i=0; i<m_rows;i++){
         for(int j=0;j<m_cols;j++){
-            char mappedVals[28] = ".ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             int numCurrent = landed[i][j];
             if(numCurrent>=26){
                 cout << "Z";
