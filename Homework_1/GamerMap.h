@@ -1,3 +1,5 @@
+#ifndef GAMERMAP_H
+#define GAMERMAP_H
  #include "Map.h"
 
     class GamerMap
@@ -32,3 +34,4 @@
       private:
         Map m_map;
     };
+  #endif GAMERMAP_H

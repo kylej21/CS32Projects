@@ -1,5 +1,5 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef NEWMAP_H
+#define NEWMAP_H
 #include<iostream>
 const int DEFAULT_MAX_ITEMS = 150;
 using namespace std;
