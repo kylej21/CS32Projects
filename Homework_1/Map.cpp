@@ -30,7 +30,7 @@ bool Map::insert(const KeyType& key, const ValueType& value){
     k.value=value;
     for(int i=0;i<m_size;i++){
         if(key<Pairs[i].key){
-            for(int j=m_size;j>=i;j--){
+            for(int j=m_size-1;j>=i;j--){
                 Pairs[j+1]=Pairs[j];
             }
             Pairs[i]=k;
