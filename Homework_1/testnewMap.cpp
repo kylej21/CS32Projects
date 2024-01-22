@@ -5,6 +5,7 @@
 using namespace std;
 void test()
 {
+  //Map test(-2);
   Map a(1000);   // a can hold at most 1000 key/value pairs
   Map b(5);      // b can hold at most 5 key/value pairs
   Map c;         // c can hold at most DEFAULT_MAX_ITEMS key/value pairs

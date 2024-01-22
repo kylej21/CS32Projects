@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cstdlib>
 #include "newMap.h"
 using namespace std;
 
@@ -10,6 +11,10 @@ Map::Map(){
 Map::Map(int maxSize)
 : m_maxSize(maxSize)
 {
+    if(maxSize<0){
+        cout << "Maps must not be negative lengths";
+        exit(1);
+    }
     m_size=0;
     Pairs = new KeyValuePair[maxSize];
 }
