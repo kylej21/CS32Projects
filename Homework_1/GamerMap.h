@@ -34,4 +34,4 @@
       private:
         Map m_map;
     };
-  #endif GAMERMAP_H
+  #endif
