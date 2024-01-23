@@ -30,6 +30,9 @@ Map::Map(const Map &old){
     }
 }
 Map& Map::operator=(const Map &source){
+    if(this==&source){
+        return *this;
+    }
     delete[] Pairs;
     m_size = source.m_size;
     m_maxSize=source.m_maxSize;
