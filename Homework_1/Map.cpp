@@ -1,5 +1,5 @@
 #include<iostream>
-#include "Map.h"
+#include "ogMap.h"
 using namespace std;
 
 Map::Map(){

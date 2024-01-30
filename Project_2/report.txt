@@ -1,0 +1,202 @@
+Kyle Johnson CS32 Project 2 report
+
+Doubly linked list description:
+    My linkedlist is a generic doubly linked list. Each node has a Next and Previous pointer, 
+    with the head's previous pointer pointing to a nullptr, and the last node's next pointer
+    pointing to nullptr. When our Linked list is empty, head begins as nullptr. When we have 
+    one node, its previous and next pointers point to null pointers. 
+
+Psuedocode for non trivial functions:
+    Map::insert()
+        dynamically allocate a new node and set up its key and value based on params
+        create ptr which points to head
+        if our linkedlist is empty
+            make our new node the head
+            new node next and prev points to nullptr
+            increment size and return true
+        if our parameter key is smaller than the heads key
+            insert at the beginning of the linkedlist
+            new node's next pointer points to head
+            new node's prev pointer points to nullptr
+            set head's previous to our new node
+            make our new node the head, increment size and return true
+        while the node after our pointer's value is not null
+            if the node we are looking at matches the parameter key
+                delete our allocated memory n and return false
+            otherwise if the key of the node after our current node matches the parameter
+                our new nodes next pointer points to the current nodes next node
+                our new nodes prev pointer points to the current node
+                the current nodes next pointer points to our new node
+                increment size and return true
+            otherwise go to the next node
+        if our last nodes key is the targeted key
+            delete our allocated node and return false
+        otherwise make our new node the last node
+        our current nodes next pointer points to our new node
+        our new nodes previous pointer points to the current node
+        our new nodes next pointer points to nullptr
+        increment size and return true
+
+    Map::erase()
+        loop through our linked list until we find a nullptr
+            if the key matches 
+                check that the previous node is not null
+                    the previous nodes next pointer will point to our current nodes next node
+                check that the next node is not null
+                    the next nodes previous pointer will point to our current nodes prev node
+                if our current node is the head
+                    reassign the head to the next node
+                delete the node that we point at
+                decrement size and return true
+            if the key does not match
+                go to the next node
+        return false if we did not find the key ever
+    
+    Map::merge()
+        keep a tracker, tempkey, and tempval for each m1 and m2. 
+        create a temp Map and a bool to keep track of faulty duplicates
+        while either of our trackers are less than their corresponding map size
+            if m1's tracker is at its max size
+                add the node at m2's tracker to our temp map
+            else if m2's tracker is at its max size
+                add the node at m1's tracker to our temp map
+            else
+                if the keys we are looking at match
+                    if the values we are looking at match
+                        add the pair of key and value one time and increment both trackers
+                    if the values dont match
+                        increment both trackers and record this in our bool for faulty duplicates
+                if the keys dont match 
+                    if m2 trackers key is the biggest
+                        add the node at m1's tracker to our temp map
+                    if m1 trackers key is the biggest
+                        add the ndoe at m2's tracker to our temp map
+        assignment operator result to be equal to our temp map
+        return the bool we stored for faulty duplicates
+
+    Map::reassign()
+        create a temp map and temp keytype and valuetype variables
+        create a keytype variable for lastkey and a valuetype variable for firstval
+        if our map is empty
+            assing result to our temp array 
+            return
+        if our map has one pair
+            add that pair to temp and assign result = to temp + return
+        loop through every node + 1
+            if we are not after the last node
+                get the key and value of the current node
+            if we are at the first iteration
+                store the firstval
+            if we are after the end of the linkedlist
+                insert a pair with lastkey and first value
+            otherwise
+                insert a pair with the previouskey and the current value
+            update what the lastkey was
+        assignment operator result = temp
+        
+Test cases:
+    Map m1;
+    assert(m1.empty()==true); //check empty works when list is empty
+    assert(m1.insert("Kyle",19)==true); // check that insert returns true when successful
+    assert(m1.insert("Kyle",15)==false); // check that insert returns false when duplicate keys
+    assert(m1.insert("Ale",15)==true); // check that inserting to the front works
+    assert(m1.insert("Avi",20)==true); // check that inserting to the middle works
+    assert(m1.contains("Kyle")==true); // check that contains works when true
+    assert(m1.contains("Antony")==false); // check that contains fails when false
+    assert(m1.size()==3); // check that size works
+    assert(m1.empty()==false); // checks that empty fails when not empty
+    assert(m1.update("Kyle",21)==true); // checks that update works when the key is in the list
+    ValueType v; 
+    KeyType k ="Kyle"; 
+    assert(m1.get(k,v)==true); // check that get(k,v) is true when the key is in the list
+    assert(v==21); // checks that the value is properly updated
+    k="Diego";
+    assert(m1.get(k,v)==false); // checks that get returns false if the key is not in the list
+    assert(k=="Diego"&&v==21); // checks that neither the key or variable are updated in false get
+    assert(m1.update("Diego",10)==false); // checks that update returns false when the key is not in the list
+    assert(m1.insertOrUpdate("Ale",100)==true); // checks that insertorupdate works when the key is in the array
+    assert(m1.insertOrUpdate("smallberg",0)==true); // checks that insertOrUpdate works when the key is not in the array
+    assert(m1.insert("Carey",50)==true); 
+    assert(m1.erase("Carey")==true); // checks that erase returns true when the key is in the list
+    assert(m1.contains("Carey")==false); // checks that erase actually erases
+    assert(m1.get(0,k,v)==true); // checks that the overloaded get(i,k,v) works when 0<=i<=size
+    assert(k=="Ale"&& v==100); // checks that the get(i,k,v) accurately updates k and v
+    assert(m1.get(100,k,v)==false); // checks that get(i,k,v) fails if i>size 
+    assert(k=="Ale"&&v==100); // checks that variables are unedited upon failure
+    assert(m1.get(3,k,v)==true); // checks that get(i,k,v) works even for the last node
+    assert(k=="smallberg" && v==0); // checks that get(i,k,v) updates variables properly even for last node
+    Map m2;
+    m2.insert("aaa",10);
+    m2.insert("bbb",5);
+    m2.insert("ccc",12);
+    Map m3;
+    m3.insert("ddd",15);
+    m3.insert("ccc",14);
+    m3.swap(m2); 
+    assert(m3.contains("aaa")&& m3.contains("bbb")&&m3.contains("ccc")&&m3.size()==3); // checks that swap corectly swaps variables, inluding duplicates 
+    assert(m2.contains("ccc")&& m2.contains("ddd")&&m2.size()==2); // checks the other size of the swap function is correct
+    k="ccc";
+    assert(m2.get("ccc",v)==true);//checks that the values of the swapped pairs are updated
+    assert(v==14);
+    assert(m3.get("ccc",v)==true);// checks that upon duplicate swapping, the correct value is in each list
+    assert(v==12);
+    Map m4;
+    m4.insert("1",1);
+    m4.insert("2",2);
+    m4.insert("3",3);
+    m4.swap(m4); //checks that swapping is successful with aliasing
+    Map m5;
+    Map m6;
+    m5.insert("5",5);
+    m5.insert("1",5);
+    m5.insert("3",3);
+    assert(merge(m4,m5,m6)==false); // checks that merge returns false when duplicate keys and different values
+    assert(m6.contains("1")==false&&m6.contains("2")==true&&m6.contains("3")==true&&m6.contains("5")==true); // checks that merges values are actually correct
+    Map m7;
+    m7.insert("4",4);
+    Map m8;
+    m8.insert("5",5);
+    Map m9;
+    assert(merge(m7,m8,m9)==true); // checks that merge works when there are no duplicates
+    Map m10;
+    Map m11;
+    m10.insert("1",1);
+    m10.insert("2",2);
+    m10.insert("3",3);
+    m11.insert("5",5);
+    m11.insert("1",5);
+    m11.insert("3",3);
+    Map m12;
+    m12.insert("test",15);
+    assert(merge(m10,m11,m12)==false); 
+    assert(m12.contains("test")==false&&m12.size()==3);//checks that merge works even when the result map was not empty
+    Map m13;
+    Map m14;
+    m13.insert("Fred",123);
+    m13.insert("Ethel",456);
+    m13.insert("Lucy",456);
+    reassign(m13,m14); // checks that reassign works generically
+    k="Fred";
+    assert(m14.get(k,v)==true);
+    assert(v==456);   //checks reassign for correct values.
+    k="Ethel";
+    assert(m14.get(k,v)==true);
+    assert(v==123||v==456); //checks reassign for correct values.
+    ValueType v2;
+    k="Lucy";
+    assert(m14.get(k,v2)==true);
+    assert(v2==123||v2==456&&v!=v2); //checks reassign for correct values.
+    Map m15;
+    m15.insert("Kyle",123);
+    m15.insert("Ale",456);
+    m15.insert("Avi",456);
+    reassign(m15,m15); // checks reassign during aliasing
+    k="Kyle";
+    assert(m15.get(k,v)==true);
+    assert(v==456);   //checks reassign for correct values.
+    k="Ale";
+    assert(m15.get(k,v)==true);
+    assert(v==123||v==456); //checks reassign for correct values.
+    k="Avi";
+    assert(m15.get(k,v2)==true);
+    assert(v2==123||v2==456&&v!=v2); //checks reassign for correct values.
