@@ -52,8 +52,7 @@ int main(){
     m4.insert("1",1);
     m4.insert("2",2);
     m4.insert("3",3);
-    // ask about swapping on itself
-    //m4.swap(m4);
+    m4.swap(m4);
     Map m5;
     Map m6;
     m5.insert("5",5);
