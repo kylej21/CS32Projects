@@ -39,7 +39,8 @@ bool isMapValid(string postfix, const Map &values)
     return true;
 }
 bool isInfixValid(string rawInitial)
-{
+{   
+    // replacing whitespace since it is ignored
     string initial="";
     for(int i=0;i<rawInitial.length();i++){
         if(rawInitial[i]!=' '){

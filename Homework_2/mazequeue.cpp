@@ -17,14 +17,14 @@ bool pathExists(string maze[], int nRows, int nCols, int sr, int sc, int er, int
     coordQueue.push(start);
     //S meaning start
     maze[sr][sc]='S';
-    
+    /*
     for(int i=0;i<nRows;i++){
         for(int j=0;j<nCols;j++){
             cout << maze[i][j];
         }
         cout <<endl;
     } 
-
+    */
     // initialize focus with an invalid point
     Coord focus(-1,-1);
     while(!coordQueue.empty()){
