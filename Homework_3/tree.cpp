@@ -20,21 +20,7 @@ void exchange(double& x, double& y)
     x = y;
     y = t;
 }
-  // Rearrange the elements of the array so that all the elements
-  // whose value is > divider come before all the other elements,
-  // and all the elements whose value is < divider come after all
-  // the other elements.  Upon return, firstNotGreater is set to the
-  // index of the first element in the rearranged array that is
-  // <= divider, or n if there is no such element, and firstLess is
-  // set to the index of the first element that is < divider, or n
-  // if there is no such element.
-  // In other words, upon return from the function, the array is a
-  // permutation of its original value such that
-  //   * for 0 <= i < firstNotGreater, a[i] > divider
-  //   * for firstNotGreater <= i < firstLess, a[i] == divider
-  //   * for firstLess <= i < n, a[i] < divider
-  // All the elements > divider end up in no particular order.
-  // All the elements < divider end up in no particular order.
+//rearrange elements in correct order
 void divide(double a[], int n, double divider,
                                     int& firstNotGreater, int& firstLess)
 {
