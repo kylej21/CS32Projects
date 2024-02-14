@@ -61,6 +61,8 @@
         "iterator": "cpp",
         "memory_resource": "cpp",
         "__memory": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "list": "cpp",
+        "deque": "cpp"
     }
 }

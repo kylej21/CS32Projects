@@ -74,7 +74,6 @@ int main()
     animals[1] = new Pig("Napoleon", 190);
     animals[2] = new Pig("Wilbur", 50);
     animals[3] = new Duck("Daffy");
-
     cout << "Here are the animals." << endl;
     for (int k = 0; k < 4; k++)
         animate(animals[k]);
