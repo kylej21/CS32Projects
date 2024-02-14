@@ -1,12 +1,13 @@
-#include<iostream>
-using namespace std;
+//#include<iostream>
+//using namespace std;
 //currently checks for negatives
+/*
 bool somePredicate(int x){
     if(x<0){
         return true;
     }
     return false;
-}
+}*/
 // returns true if any somePredicate(a[n]) call returns false
 bool anyFalse(const double a[], int n)
 {
@@ -113,4 +114,5 @@ int main(){
     const double a1[]={10,50,40,20,50,40,30};
     const double a2[] = {50,40,30};
     cout << includes(a1,7,a2,3) <<endl;
-}*/
+}
+*/

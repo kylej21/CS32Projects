@@ -1,5 +1,5 @@
-#include<iostream>
-using namespace std;
+//#include<iostream>
+//using namespace std;
 class Coord
 {
   public:
@@ -11,7 +11,7 @@ class Coord
     int m_c;
 };
 bool pathExists(string maze[], int nRows, int nCols, int sr, int sc, int er, int ec){
-    if((sr,sc)==(er,ec)){
+    if(sr==er && sc==ec){
         return true;
     }
     maze[sr][sc]='V';

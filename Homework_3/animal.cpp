@@ -69,7 +69,6 @@ void animate(const Animal* a)
     cout << "!  My name is " << a->name()
          << ".  Watch me " << a->moveAction() << "!\n";
 }
-/*
 int main()
 {
     Animal* animals[4];
@@ -88,4 +87,4 @@ int main()
     cout << "Cleaning up." << endl;
     for (int k = 0; k < 4; k++)
         delete animals[k];
-}*/
+}
