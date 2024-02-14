@@ -8,7 +8,9 @@ class Animal{
         }
         virtual ~Animal(){};
         virtual void speak() const = 0;
-        virtual string moveAction() const = 0;
+        virtual string moveAction() const{
+            return "walk"; 
+        };
         string name() const{
             return m_name;
         }
@@ -31,9 +33,6 @@ class Pig : public Animal{
                 cout << "Grunt";
             }
         };
-        virtual string moveAction() const{
-            return "walk"; 
-        }
     private:
         int m_weight;
 };
@@ -59,9 +58,6 @@ class Cat : public Animal{
         virtual void speak() const{
             cout << "Meow";
         };
-        virtual string moveAction() const{
-            return "walk";
-        }
 };
 void animate(const Animal* a)
 {
