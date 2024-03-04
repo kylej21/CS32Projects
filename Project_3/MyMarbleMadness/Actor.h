@@ -20,6 +20,14 @@ class Actor : public GraphObject{
         virtual bool isPassable(){return false;};
         virtual bool canBeStepped(){return false;};
         virtual void consume(){return;};
+        virtual bool fromFactory(){return false;}
+        virtual bool isConsumable(){return false;}
+        virtual int getType(){return -1;};
+        virtual bool canTheifsWalk(){return false;}
+        virtual bool hasStolenItem(){return false;}
+        virtual int getGoodie(){return 0;}
+        virtual bool canSteal(){return false;}
+
 
     private:
         StudentWorld* m_world;
@@ -32,13 +40,19 @@ class Consumable : public Actor{
         virtual void doSomething() = 0;
         virtual bool canBeStepped(){return true;};
         virtual bool isPassable(){return true;};
-        virtual void consume(){ setAlive(false);};
+        virtual void consume();
+        virtual bool isConsumable(){return true;}
+        virtual bool canTheifsWalk();
+        virtual void distributePoints()=0;
+
 
 };
 class Crystal : public Consumable{
     public:    
         Crystal(StudentWorld * world, double x, double y);
         virtual void doSomething();
+        virtual bool isConsumable(){return false;}
+        virtual void distributePoints();
 
 };
 class Goodie : public Consumable{
@@ -51,6 +65,23 @@ class Ammo : public Goodie{
     public:
         Ammo(StudentWorld * world, double x, double y);
         virtual void doActivity();
+        virtual int getType(){return 1;}
+        virtual void distributePoints();
+
+};
+class ExtraLife : public Goodie{
+    public:
+        ExtraLife(StudentWorld * world, double x , double y);
+        virtual void doActivity();
+        virtual int getType(){return 2;}
+        virtual void distributePoints();
+};
+class Restore : public Goodie{
+    public:
+        Restore(StudentWorld * world, double x, double y);
+        virtual void doActivity();
+        virtual int getType(){return 3;}
+        virtual void distributePoints();
 };
 class Pit : public Actor{
     public:
@@ -66,7 +97,9 @@ class livingActor : public Actor{
         int getHealth(){return m_health;};
         virtual void damage(int amount);
         virtual bool push(int x, int y, int dir){return false;};
-
+        virtual void playUniqueSound()=0;
+        virtual void playDeathSound()=0;
+        virtual void giveDeathPoints()=0;
     private:
         int m_health;
 };
@@ -83,12 +116,16 @@ class Marble : public livingActor{
         virtual void doSomething(){return;};
         virtual bool isPushable(){return true;};
         virtual bool push(int x, int y, int dir);
+        virtual void playUniqueSound(){return;}
+        virtual void playDeathSound(){return;}
+        virtual void giveDeathPoints(){return;}
     private:
 };
 class Pea : public Actor{
     public:
         Pea(StudentWorld *world, double x, double y, int direction);
         virtual void doSomething();
+        virtual bool canBeStepped(){return true;}
     private:
 };
 class Player : public livingActor{
@@ -98,14 +135,20 @@ class Player : public livingActor{
         int getPeas(){return m_peas;};
         void usePea(){m_peas-=1;};
         void addPeas(int amount){m_peas+=amount;}
+        virtual void playUniqueSound();
+        virtual void playDeathSound();
+        virtual void giveDeathPoints(){return;}
+
     private:
         int m_peas;
 };
 class Robot : public livingActor{
     public:
-        Robot(StudentWorld *world, int imageId, double x, double y, int direction);
+        Robot(StudentWorld *world, int imageId, double x, double y, int direction, int health);
         virtual void doSomething();
         virtual void doRobotActivity()=0;
+        virtual void playUniqueSound();
+        virtual void playDeathSound();
     private:  
         int m_ticks;
         int currentTick;
@@ -114,9 +157,51 @@ class RageBot : public Robot{
     public:
         RageBot(StudentWorld * world, double x, double y, int direction);
         virtual void doRobotActivity();
+        virtual void giveDeathPoints();
+
     private:
         int deltaX;
         int deltaY;
+};
+class ThiefBot : public Robot{
+    public:
+        ThiefBot(StudentWorld * world, double x, double y);
+        virtual void doRobotActivity();
+        virtual bool hasStolenItem();
+        virtual int getGoodie(){return goodie;}
+        virtual bool targetFound()=0;
+        virtual bool fromFactory(){return true;}
+        virtual bool canSteal(){return true;}
+    protected:
+        int deltaX;
+        int deltaY;
+    private:
+        int distBeforeTurning;
+        int distSoFar;
+        int goodie; // 0 = none, 1 = ammo, 2 = extra life, 3 = restore
+        
+};
+class RegularThiefBot : public ThiefBot{
+    public:
+        RegularThiefBot(StudentWorld * world, double x, double y);
+        virtual bool targetFound(){return false;}
+        virtual void giveDeathPoints();
+
+};
+class MeanThiefBot : public ThiefBot{
+    public:
+        MeanThiefBot(StudentWorld * world, double x, double y);
+        virtual bool targetFound();
+        virtual void giveDeathPoints();
+
+};
+class ThiefBotFactory : public Actor{
+    public:
+        ThiefBotFactory(StudentWorld * world, double x ,double y, int type);
+        virtual void doSomething();
+        int getType(){return m_type;}
+    private:
+        int m_type; // 0 = regular theifbot, 1 = mean theif bot.
 };
 class Exit : public Actor{
     public:

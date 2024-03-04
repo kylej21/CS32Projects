@@ -21,13 +21,15 @@ StudentWorld::StudentWorld(string assetPath)
 
 int StudentWorld::init()
 {
+    finished =0;
     string curLevel = "level0" + to_string(getLevel()) + ".txt";
+    cerr << curLevel<<endl;
     Level lev(assetPath());
     Level::LoadResult result = lev.loadLevel(curLevel);
+    if(result == Level::load_fail_file_not_found || getLevel()==100){
+        return GWSTATUS_PLAYER_WON;
+    }
     m_nCrystals=0;
-    score = 0;
-    level = 0;
-    lives = 3;
     bonus = 1000;
     if (result == Level::load_fail_file_not_found ||result == Level:: load_fail_bad_format)
         return -1; 
@@ -37,6 +39,18 @@ int StudentWorld::init()
 				Level::MazeEntry ge = lev.getContentsOf(x, y);
 				switch (ge)
 				{
+                    case Level::mean_thiefbot_factory:
+                        actors.push_back(new ThiefBotFactory(this,x,y,1));
+                        break;
+                    case Level::thiefbot_factory:
+                        actors.push_back(new ThiefBotFactory(this,x,y,0));
+                        break;
+                    case Level::restore_health:
+                        actors.push_back(new Restore(this,x,y));
+                        break;
+                    case Level::extra_life:
+                        actors.push_back(new ExtraLife(this,x,y));
+                        break;
                     case Level::ammo:
                         actors.push_back(new Ammo(this,x,y));
                         break;
@@ -75,9 +89,19 @@ int StudentWorld::init()
 
 int StudentWorld::move()
 {
+    if(finished ==1){
+        //advanceToNextLevel();
+        increaseScore(2000+getBonus());
+        return GWSTATUS_FINISHED_LEVEL;
+    }
     // This code is here merely to allow the game to build, run, and terminate after you type q
     ostringstream oss;
-    bonus-=1;
+    if(bonus<=0){
+        bonus = 0;
+    }
+    else{
+        bonus-=1;
+    }     
 	oss.fill('0');
 	oss << "Score: ";
 	oss << setw(7) << getScore() << "  ";
@@ -95,7 +119,10 @@ int StudentWorld::move()
     oss << setw(4) << getBonus() << "  ";
     string statText = oss.str();
     setGameStatText(statText);
-
+    if(!m_player->isAlive()){
+        decLives();
+        return GWSTATUS_PLAYER_DIED;
+    }
     m_player->doSomething();
     for(int actorI=0;actorI<actors.size();actorI++){
         actors[actorI]->doSomething();
@@ -103,6 +130,21 @@ int StudentWorld::move()
     std::vector<Actor*>:: iterator it = actors.begin();
     while(it!=actors.end()){
         if(!(*it)->isAlive()){
+            if((*it)->hasStolenItem()){
+                switch(((*it)->getGoodie())){
+                    case 1:
+                        actors.push_back(new Ammo(this, (*it)->getX(),(*it)->getY()));
+                        break;
+                    case 2:
+                        actors.push_back(new ExtraLife(this, (*it)->getX(),(*it)->getY()));
+                        break;
+                    case 3:
+                        actors.push_back(new Restore(this, (*it)->getX(),(*it)->getY()));
+                        break;
+                    default:
+                        break;
+                }
+            }
             delete *it;
             actors.erase(it);
             it--;
@@ -184,6 +226,7 @@ void StudentWorld::pickUp(){
     if(m_nCrystals<=0){
         for(auto a: actors){
             a->setVisible(true);
+            playSound(SOUND_REVEAL_EXIT);
         }
     }
 }
@@ -206,4 +249,39 @@ bool StudentWorld::findSight(int x, int y, int dx, int dy){
     }
     
     return findSight(x+dx, y+dy, dx, dy);
+}
+int StudentWorld::countWorkers(int x, int y){
+    int count =0;
+    for(auto a : actors){
+        if(a->getX()==x&&a->getY()==y&&a->fromFactory()){
+            count +=1;
+        }
+    }
+    return count;
+}
+void StudentWorld::addRobot(int x , int y, int type){
+    switch(type){
+        case 0:
+            actors.push_back(new RegularThiefBot(this,x,y));
+            break;
+        case 1:
+            actors.push_back(new MeanThiefBot(this,x,y));
+            break;
+    }
+}
+Actor * StudentWorld::findConsumableOn(int x, int y){
+    for(auto a : actors){
+        if(a->getX()==x && a->getY()==y && a->isConsumable()){
+            return a;
+        }
+    }
+    return nullptr;
+}
+bool StudentWorld::areOtherTheifsHere(int x, int y){
+    for(auto a : actors){
+        if(a->getX()==x && a->getY()==y && a->canSteal()){
+            return true;
+        }   
+    }
+    return false;
 }
