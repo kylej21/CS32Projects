@@ -23,7 +23,6 @@ int StudentWorld::init()
 {
     finished =0;
     string curLevel = "level0" + to_string(getLevel()) + ".txt";
-    cerr << curLevel<<endl;
     Level lev(assetPath());
     Level::LoadResult result = lev.loadLevel(curLevel);
     if(result == Level::load_fail_file_not_found || getLevel()==100){
