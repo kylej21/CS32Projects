@@ -172,14 +172,14 @@ class ThiefBot : public Robot{
         virtual bool targetFound()=0;
         virtual bool fromFactory(){return true;}
         virtual bool canSteal(){return true;}
-    protected:
-        int deltaX;
-        int deltaY;
+        virtual int getDeltaX(){return deltaX;}
+        virtual int getDeltaY(){return deltaY;}        
     private:
         int distBeforeTurning;
         int distSoFar;
         int goodie; // 0 = none, 1 = ammo, 2 = extra life, 3 = restore
-        
+        int deltaX;
+        int deltaY;
 };
 class RegularThiefBot : public ThiefBot{
     public:

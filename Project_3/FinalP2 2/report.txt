@@ -1,0 +1,39 @@
+Project 3 Report Kyle Johnson CS32
+
+1. Player-goodie control flow:
+
+Every frame, in my Goodie's doSomething function, it calls a function isPlayerHere in the StudentWorld using 
+getWorld(), and passes the Goodies coordinates into the call. Then, in the student world object, if the coordinates
+of the private member player match the passed Goodie coordinates, it returns true, otherwise false. By using this function,
+I can check if the player is ever on the same square as every goodie, everyframe. Then, the goodie object itself performs 
+some operations. 1. It sets itself to be non-alive (dead). Then, later in the StudentWorld cleanUp function the goodie gets 
+properly deleted. 2. The goodie object calls doActivity. Each unique Goodie (Ammo, Extra, Restore) are all derived classes. 
+doActivity is a virtual function that they reimplement to apply their unique effects, like giving peas or health. 3. The 
+goodie calls another virtual function distributePoints(), which is reimplemented in the derived unique goodies to tell the 
+StudentWorld to incrementScore by the appropriate amount. 4. Finally, the Goodie plays the proper sound.
+
+2. Bugs/non-implemented classes:
+
+As of now, the only bug I know of is that my pea does not damage theifbots who are currently standing on the factory they
+spawned from.
+
+3. Other design decisions/ not specified:
+
+Note: In the event that there is an object that a pea can collide with right in front of the shooter, the pea is created, moves, and 
+hits the object very quickly. It is difficult to see the pea, but I assure you it is there. Since Pea is derived from the Actor class,
+which is setVisible(true) upon initialization of the Object, Pea is visible as soon as it is created. Since it also damages objects right
+in front of the shooter, I know it functionally exists there too.
+
+I decided to have an ABC - theifBot, then derive 2 unique classes Mean or Regular bot. I did this because most of the theifbots
+doSomething function is the same, and this way I can just call a function canShoot(). The only difference between mean and Regular
+theifs is mean can shoot, so my regular bots canShoot function just always returns false. 
+
+The spec gave us the choice of how to handle the theifBot goodies. I decided to delete the goodie then dynamically allocate a new 
+goodie when the theifBot dies. 
+
+In the event a theifBots direction is obstructed while he wants to move forward, we were told to randomly choose a new direction.
+If this direction failed, the spec did not specify the order that I should handle the other 3 directions. I chose to just loop through
+a switch statement, so the order circularly goes left->right->up->down, depending on what the random start was. Ex up->down->left->right.
+
+I decided to implement a livingActor class which the spec did not specify to create. All classes that have health/can be damaged are
+derived from this base class. LivingActor is an ABC, and it made it easy to handle all the pea and death stuff. 

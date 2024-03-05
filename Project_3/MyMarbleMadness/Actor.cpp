@@ -820,9 +820,9 @@ void MeanThiefBot::giveDeathPoints(){
     getWorld()->increaseScore(20);
 }
 bool MeanThiefBot::targetFound(){
-    bool lineOfSight = getWorld()->findSight(getX()+deltaX,getY()+deltaY,deltaX,deltaY); //later set lineOfSight = findSight();
+    bool lineOfSight = getWorld()->findSight(getX()+getDeltaX(),getY()+getDeltaX(),getDeltaX(),getDeltaY()); //later set lineOfSight = findSight();
     if(lineOfSight){
-        getWorld()->addPea(getX()+deltaX,getY()+deltaY,getDirection(),1);
+        getWorld()->addPea(getX()+getDeltaX(),getY()+getDeltaY(),getDirection(),1);
         return true;
     }
     return false;

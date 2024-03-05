@@ -23,7 +23,7 @@ int StudentWorld::init()
 {
     finished =0;
     string curLevel = "level0" + to_string(getLevel()) + ".txt";
-    cerr << curLevel<<endl;
+    //cerr << curLevel<<endl;
     Level lev(assetPath());
     Level::LoadResult result = lev.loadLevel(curLevel);
     if(result == Level::load_fail_file_not_found || getLevel()==100){
@@ -33,7 +33,7 @@ int StudentWorld::init()
     bonus = 1000;
     if (result == Level::load_fail_file_not_found ||result == Level:: load_fail_bad_format)
         return GWSTATUS_LEVEL_ERROR; 
-        cerr << "Successfully loaded level" << endl;
+        //cerr << "Successfully loaded level" << endl;
 		for (int x = 0; x < 16; x++) {
 			for (int y = 0; y < 16; y++) {
 				Level::MazeEntry ge = lev.getContentsOf(x, y);

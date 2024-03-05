@@ -1,0 +1,41 @@
+Kyle Johnson CS32 Homework 4 Problems:
+
+1e. Explain in a sentence or two what happens during the execution of test case 3 that eventually leads to test case 3 failing:
+
+In the code for case 3, we are iterating through our vector until we reach vector.end(). However, in the loop we push_back, 
+adding items into the vector, which invalidates the vector.end() function. This causes an endless loop.
+
+3. Explain in a sentence or two why the call to Map<Coord, int>::insert causes at least one compilation error.
+
+In our insert function, the Map class ultimately calls doInsertOrUpdate, which has to compare the two objects. With primitive 
+types like ints or chars, the comparison operators are already implemented. However, when comparing User-defined objects, we 
+may need to implement the >, <= operators. In this example, since doInsertOrUpdate tries to compare the Coords to see when to
+break our loop, they have to be implemented. This lack of comparison operator is what ultimately causes the compilation error.
+
+4b. Why could you not solve this problem given the constraints in part a with only 1 parameter?:
+
+Since our leafs are appended to the FRONT of the string, we need a way to store the previous labels and domain path so far. For
+example, the root of edu has to be saved in a string, and then ucla, before we can actually print anything. If we made the function
+call without the second parameter to store the string, each recursive iteration would only know its current label and not the ones 
+that came before. 
+
+5a. In order to prepare for the inevitable spread... What is the time complexity of this algorithm?
+
+O(N^3). There are three loops, each of which have a WORST CASE of N number of iterations. Since they are nested inside of each 
+other, we get N*N*N => N^3. None of the operations within each loop are greater than constant O(1) time, so O(N^3) is final.
+
+5b. The algorithm in part a doesn't take advantage of the symmetry of contact... What is the time complexity of this algorithm? Why?:
+
+O(N^3). Although the algorithm does utilize symmetry now to reduce the number of operations by 50%, O((0.5N)^3)is O(0.125N^3).
+With big O standard we drop the coeffecient in front of N^3, and get O(N^3). Also, j<i, but the worst case for I is still N.
+So still, in its worst case, the algorithm is N*N*N effeciency, or O(N^3).
+
+6a.  In terms of the number of linked list nodes visited during the execution of this function, what is its time complexity? Why?
+
+O(N^2). The function first loops through each node using a for loop where the constraint is i<m.size(). This could visit N nodes
+in the worst case, so O(N). However, nested inside of this function is m.get(). In order to retrieve a value from a linked list,
+you need to iterate through the nodes, unlike arrays. This means m.get() in worst case could also visit N number of nodes, so 
+it is also O(N). Since the get is nested inside the loop, its O(N*N)-> O(N^2).
+
+6b. O(N). This reassign function iterates through at most N number of nodes (each in the list), until it reaches the head. Since
+none of the operations nested inside of the for loop are > O(1) aka constant time, the overall complexity is still O(N).
