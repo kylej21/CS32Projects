@@ -270,7 +270,7 @@ void Map<KeyType, ValueType>::swap(Map<KeyType, ValueType>& other)
     other.m_size = t;
 }
 template<typename KeyType,typename ValueType>
-Map<KeyType, ValueType>::Node* Map<KeyType, ValueType>::findFirstAtLeast(const KeyType& key) const
+typename Map<KeyType, ValueType>::Node* Map<KeyType, ValueType>::findFirstAtLeast(const KeyType& key) const
 {
       // Do a linear search through the list
 

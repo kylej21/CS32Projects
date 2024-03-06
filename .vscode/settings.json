@@ -63,6 +63,13 @@
         "__memory": "cpp",
         "stack": "cpp",
         "list": "cpp",
-        "deque": "cpp"
+        "deque": "cpp",
+        "csignal": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "queue": "cpp",
+        "set": "cpp",
+        "thread": "cpp",
+        "unordered_set": "cpp"
     }
 }

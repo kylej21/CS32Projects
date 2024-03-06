@@ -105,32 +105,29 @@ bool compareSensorPtr(const Sensor* lhs, const Sensor* rhs)
     // TODO: You implement this.  Using the same criteria as compareSensor,
     //       compare two Sensors POINTED TO by lhs and rhs.  Think about
     //       how you can do it in one line by calling compareSensor.
-
+    return compareSensor(*lhs,*rhs);
     // Just so this will compile for now, we'll pretend every comparison
     // results in a tie, so there's no preferred ordering.
-    return false;  // Delete this line and write your code instead
+    //return false;  // Delete this line and write your code instead
 }
-
+//template<class Sensor>
 void insertion_sort(vector<Sensor>& s, bool comp(const Sensor&, const Sensor&))
 {
-    // TODO: Using the insertion sort algorithm (pp. 332-333 in the
-    //       Carrano book; also linked to in the problem spec), sort s
-    //       according to the ordering relationship passed in as the
-    //       parameter comp.
+  if (s.size() < 2) return;
 
-    // Note:  The insertion sort algorithm on pp. 312-313 of the Carrano
-    // book 6th edition is incorrect; someone made a change from the 5th
-    // edition and messed it up.  See the errata page entry for page 313 at
-    // http://homepage.cs.uri.edu/~carrano/WMcpp6e
+    for (int sorted = 1; sorted < s.size(); sorted++) {
+        Sensor nextItem = s[sorted];
 
-    // Just to show you how to use the second parameter, we'll write code
-    // that sorts only a vector of 2 elements.  (This is *not* the
-    // insertion sort algorithm.)
+        int loc = sorted;
+        while(loc > 0 && comp(nextItem, s[loc - 1])) {
+            s[loc] = s[loc-1];
+            loc--;
+        }
+        s[loc] = nextItem;
+    }
 
     // Note that if comp(x,y) is true, it means x must end up before y in the
     // final ordering.
-    if (s.size() == 2  &&  comp(s[1], s[0]))
-        swap(s[0], s[1]);
 }
 
   // Report the results of a timing test
@@ -275,17 +272,22 @@ void sortUsingPtrs(vector<Sensor>& sensors, bool comp(const Sensor*, const Senso
       // reordered pointers.  We'll write some code; you write the rest.
 
       // Create an auxiliary copy of sensors to faciliate the later reordering.
-    vector<Sensor> auxSensors(sensors.begin(), sensors.end());
+      vector<Sensor> auxSensors(sensors.begin(), sensors.end());
 
       // TODO:  Create a vector of Sensor pointers, and set each pointer
       //        to point to the corresponding Sensor in auxSensors.
-
+      vector<Sensor *> s;
+      for(int i=0;i<auxSensors.size();i++){
+        s.push_back(&auxSensors[i]);
+      }
       // TODO:  Sort the vector of pointers using the STL sort algorithm
       //        with comp as the ordering relationship.
-
+      sort(s.begin(),s.end(),comp);
       // TODO:  Using the now-sorted vector of pointers, replace each Sensor
       //        in sensors with the Sensors from auxSensors in the correct
       //        order.
-
+      for(int i= 0; i < s.size(); i++) {
+            sensors[i] = *s[i];
+        }
       // auxSensors will be destroyed upon return from the function
 }

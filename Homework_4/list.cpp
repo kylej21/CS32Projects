@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <string>
 #include <vector>
@@ -22,7 +23,7 @@ Domain::~Domain()
     for (size_t k = 0; k < m_subdomains.size(); k++)
         delete m_subdomains[k];
 }
-
+*/
 void listAll(string path, const Domain* d) // two-parameter overload
 {
     vector<Domain*> domains = d->subdomains();
@@ -38,7 +39,7 @@ void listAll(string path, const Domain* d) // two-parameter overload
         }
     }
 }
-
+/*
 void listAll(const Domain* d)  // one-parameter overload
 {
     if (d != nullptr)
@@ -71,4 +72,4 @@ int main()
     cout << "====" << endl;
     listAll(d5);
     delete root;
-}
+}*/
