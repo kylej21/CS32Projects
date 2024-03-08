@@ -18,9 +18,9 @@ public:
     virtual ~GeoDatabaseBase() {}
 
     virtual bool load(const std::string& map_data_file) = 0;
-    virtual bool get_poi_location(const std::string& poi, GeoPoint& point) const = 0;
-    virtual std::vector<GeoPoint> get_connected_points(const GeoPoint& pt) const = 0;
-    virtual std::string get_street_name(const GeoPoint& pt1, const GeoPoint& pt2) const = 0;
+    virtual bool get_poi_location(const std::string& poi, GeoPoint& point)  = 0;
+    virtual std::vector<GeoPoint> get_connected_points(const GeoPoint& pt)  = 0;
+    virtual std::string get_street_name(const GeoPoint& pt1, const GeoPoint& pt2) = 0;
 };
 
 class RouterBase
@@ -28,7 +28,7 @@ class RouterBase
 public:
     RouterBase() {}
     virtual ~RouterBase() {}
-    virtual std::vector<GeoPoint> route(const GeoPoint& pt1, const GeoPoint& pt2) const = 0;
+    virtual std::vector<GeoPoint> route(const GeoPoint& pt1, const GeoPoint& pt2) = 0;
 };
 
 class TourGeneratorBase

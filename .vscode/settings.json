@@ -71,5 +71,6 @@
         "set": "cpp",
         "thread": "cpp",
         "unordered_set": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }
