@@ -47,15 +47,18 @@ bool GeoDatabase::load(const std::string& map_data_file){
             GeoPoint end2(x2,y2);
             lastMid = midpoint(end1,end2);
             pointsToStreet[end1.to_string()+","+end2.to_string()]=street;
+            pointsToStreet[end1.to_string()+","+lastMid.to_string()]=street;
+            pointsToStreet[end2.to_string()+","+lastMid.to_string()]=street;
             vector<GeoPoint> * look = &pointToConnected[end1.to_string()];
             look->push_back(end2);
+            look->push_back(lastMid);
             look = &pointToConnected[end2.to_string()];
             look->push_back(end1);
+            look->push_back(lastMid);
             look = &pointToConnected[lastMid.to_string()];
             look->push_back(end1);
             look->push_back(end2);
             currentlyProcessing="number";
-
         }
         else if(currentlyProcessing=="number"){
             locationsToProcess=stoi(s);
@@ -107,20 +110,24 @@ bool GeoDatabase::load(const std::string& map_data_file){
 	}
     return true;
 } 
-bool GeoDatabase::get_poi_location(const std::string& poi, GeoPoint& point){
-    GeoPoint * tempPoint = nameToLocation.find(poi);
+bool GeoDatabase::get_poi_location(const std::string& poi, GeoPoint& point) const{
+    const GeoPoint * tempPoint = nameToLocation.find(poi);
     if(tempPoint!=nullptr){
         point = *tempPoint;
         return true;
     }
     return false;
 }
-std::vector<GeoPoint> GeoDatabase::get_connected_points(const GeoPoint& pt){
-    vector<GeoPoint> *points = pointToConnected.find(pt.to_string());
+vector<GeoPoint> GeoDatabase::get_connected_points(const GeoPoint& pt) const{
+    const vector<GeoPoint> *points = pointToConnected.find(pt.to_string());
+    if(points==nullptr){
+        vector<GeoPoint> empty;
+        return empty;
+    }
     return *points;
 }
-std::string GeoDatabase::get_street_name(const GeoPoint& pt1, const GeoPoint& pt2){
-    string *tempStreet = pointsToStreet.find(pt1.to_string()+","+pt2.to_string());
+std::string GeoDatabase::get_street_name(const GeoPoint& pt1, const GeoPoint& pt2) const{
+    const string *tempStreet = pointsToStreet.find(pt1.to_string()+","+pt2.to_string());
     if(tempStreet==nullptr){
         tempStreet = pointsToStreet.find(pt2.to_string()+","+pt1.to_string());
     }

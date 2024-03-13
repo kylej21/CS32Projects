@@ -1,3 +1,5 @@
+#ifndef HASHMAP_H
+#define HASHMAP_H
 #include<vector>
 #include<list>
 #include<iostream>
@@ -72,8 +74,7 @@ public:
  // return a pointer to the value associated with that key. This pointer can be
  // used to examine that value or modify it directly within the map.
 
- // removed const
- T* find(const std::string& key){
+ const T* find(const std::string& key) const{
     size_t h = hash<string>()(key);
     auto l = &keys[h%m_numBuckets];
     auto it = l->begin();
@@ -84,6 +85,10 @@ public:
     }
     return nullptr;
  };
+ T* find(const std::string& key) {
+ const auto& hm = *this;
+ return const_cast<T*>(hm.find(key));
+ }
  // Defines the bracket operator for HashMap, so you can use your map like this:
  // your_map["david"] = 2.99;
  // If the key does not exist in the hashmap, this will create a new entry in
@@ -113,3 +118,4 @@ public:
     double m_maxLoad;
     int m_numBuckets;
 }; 
+#endif

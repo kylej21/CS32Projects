@@ -1,5 +1,7 @@
 #include "geodb.h"
+#include "geotools.h"
 #include<string>
+#include "router.h"
 using namespace std;
 int main() {
  GeoDatabase g;
@@ -25,4 +27,25 @@ GeoPoint hedrick("34.0737070","-118.4525981");
     for(int i=0;i<v.size();i++){
         cout << g.get_street_name(hedrick,v[i])<<endl;
     }
+GeoPoint test1("34.0602175","-118.4464952" );
+GeoPoint test2("34.0599361","-118.4469479");
+
+cout <<"mid: " <<midpoint(test1,test2).sLatitude << " " << midpoint(test1,test2).sLongitude<< endl;
+GeoPoint p5=midpoint(test1,test2);
+//GeoPoint p5("-118.4467216","34.0600768");
+v = g.get_connected_points(p5);
+for(int i=0;i<v.size();i++){
+        cout <<v[i].sLatitude << " " << v[i].sLongitude<<endl;
+    }
+
+Router r(g);
+GeoPoint diddy("34.0851358", "-118.3845655");
+GeoPoint sushi("34.0464796", "-118.4554219");
+//cout << diddy.latitude << " " << diddy.longitude<<endl;
+vector<GeoPoint> result = r.route(diddy,sushi);
+cout << " start " << endl;
+cout << result.empty() << endl;
+for(auto a : result){
+    cout << a.latitude << " " << a.longitude <<endl;
+}
 }

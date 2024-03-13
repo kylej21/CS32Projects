@@ -2,9 +2,10 @@
 #define GEOTOOLS_H
 
 // STUDENTS: YOU MUST NOT MODIFY ANY CODE IN THIS FILE
-#include <iomanip>
-#include <sstream>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+
 #include "geopoint.h"
 
 // Haversine formula: http://stackoverflow.com/questions/10198985/calculating-the-distance-between-2-latitudes-and-longitudes-that-are-saved-in-a
