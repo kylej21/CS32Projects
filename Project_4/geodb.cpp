@@ -59,6 +59,8 @@ bool GeoDatabase::load(const std::string& map_data_file){
             look->push_back(end1);
             look->push_back(end2);
             currentlyProcessing="number";
+            last1=end1;
+            last2=end2;
         }
         else if(currentlyProcessing=="number"){
             locationsToProcess=stoi(s);

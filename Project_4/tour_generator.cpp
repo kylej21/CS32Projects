@@ -36,11 +36,18 @@ std::vector<TourCommand> TourGenerator::generate_tour(const Stops& stops) const{
     vector<TourCommand> result;
     TourCommand* T = new TourCommand;
     for(int i=0;i<stops.size();i++){
+        GeoPoint l;
+        
         delete T;
         T = new TourCommand;
         string location;
         string content;
         stops.get_poi_data(i,location,content);
+        if(m_geoDB.get_poi_location(location,l)==false){
+            // if point is not in MapData.txt
+            vector<TourCommand> empty;
+            return empty;
+        }
         T->init_commentary(location,content);
         result.push_back(*T);
         if(i<stops.size()-1){

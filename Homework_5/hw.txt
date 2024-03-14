@@ -1,0 +1,75 @@
+Homework 5 Kyle Johnson CS32
+
+1a. 
+                    50
+        20                       60 
+10              40                       70
+   15      30                   66                80
+         25   38                              75
+
+1b. inorder: 10 15 20 25 30 38 40 50 60 66 70 75 80
+    preorder: 50 20 10 15 40 30 25 38 60 70 66 80 75
+    postorder: 15 10 25 38 30 40 20 66 75 80 70 60 50
+
+1c. 
+                    50
+        25                     60 
+10              40                     70
+   15      38                     66          80
+                                            75
+
+2a. struct Node{
+    int value;
+    Node* Parent;
+    Node* leftC;
+    Node * rightC;
+   }
+2b.
+    bool insertBST(int val , Node* root){
+        Node* p = root
+        Node* parent = nullptr
+        int key = targetVal
+        while p!=nullptr:
+            parent = p
+            if key == p->key:
+                return false;
+            if key<p->key:
+                p = p->left;
+            if key>p->key:
+                p = p->right;
+        // node not found so passes set requirements
+        Node * n = new Node;
+        n->val = key;
+        if parent == nullptr
+            root = n;
+        else
+            if n->key<parent->key:
+                parent->left = n;
+            else 
+                parent->right = n;
+        size+=1;
+        return true;
+    }
+
+3a. 
+    7
+      3
+       X
+       1
+      6
+       4
+       5
+
+3b. [9,5,7,1,3,4,6]
+
+3c. [7,5,6,1,3,4]
+
+4:
+    a. O(C+S)
+    b. O(log(C)+S)
+    c. O(log(C) + log(S))
+    d. O(log(S))
+    e. O(1)
+    f. O(log(C)+O(S))
+    g. O(S)
+    h. O(C+log(S))
