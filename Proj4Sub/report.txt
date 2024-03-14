@@ -1,0 +1,27 @@
+Kyle Johnson CS32 Project 4 report
+
+Brief the big O for average cases of the following functions:
+
+GeoDatabase::load() - Load would be linear time, since I process each street, poi, and coordinate group once. 
+-> O(N*P) where N is the number of Streets in Mapdata.txt, and P is the average number of POI per street.
+
+GeoDatabase::get_connected_points() - get_connected_points is constant time because I implemented a hashtable
+for each street and its adjacent connected points. This is set up during load, so in this function call it is 
+just the cost of looking up an item in a hashtable -> O(1).
+
+GeoDatabase::get_street_name() - Similar to get_connected_points, get_street_name will be constant time since
+my only cost is looking up an item in a hashtable. -> O(1)
+
+Router::Route() - I used 6 relevant data structures in my Route function. First, I used an unordered set of strings
+for my closed container. This lets me check if I have already processed a GeoPoint in O(1) time. Second, I have an
+unordered map from strings to doubles for my G_value storing. This lets me associate a GeoPoint with a value that 
+I use for priority in my priority queue. Third, I used an unordered map from strings to GeoPoints to keep track of 
+the prior nodes I have visited before the one I am processing. Next I have a regular vector of geoPoints. When
+I find the target location, I transfer the path stored in my unordered map to this vector so it matches the return 
+type. Fifth, I used a priority queue of GeoPoints to determine the locally best node to process. The priority comparison of 
+GeoPoints is based on their distance in miles from the targetLocation. Finally, I use an unordered set of strings, to track
+which GeoPoints are in my priority queue. This lets me find elements in O(1) time. 
+
+^^
+Note: According to FAQ 6, I am supposed to briefly describe my datastructures instead of time complexity
+since I used A*. 
