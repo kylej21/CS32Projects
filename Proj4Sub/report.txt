@@ -18,10 +18,10 @@ unordered map from strings to doubles for my G_value storing. This lets me assoc
 I use for priority in my priority queue. Third, I used an unordered map from strings to GeoPoints to keep track of 
 the prior nodes I have visited before the one I am processing. Next I have a regular vector of geoPoints. When
 I find the target location, I transfer the path stored in my unordered map to this vector so it matches the return 
-type. Fifth, I used a priority queue of GeoPoints to determine the locally best node to process. The priority comparison of 
-GeoPoints is based on their distance in miles from the targetLocation. Finally, I use an unordered set of strings, to track
-which GeoPoints are in my priority queue. This lets me find elements in O(1) time. 
+type. Fifth, I used a priority queue of Pairs of doubles and GeoPoints to determine the locally best node to process. 
+The priority comparison of Pairs is based on their distance in miles from the targetLocation + distance travelled so far. 
+Finally, I use an unordered set of strings, to track which GeoPoints are in my priority queue. This lets me find elements
+in O(1) time. 
 
-^^
 Note: According to FAQ 6, I am supposed to briefly describe my datastructures instead of time complexity
 since I used A*. 
